@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OneCloud CH Racer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  </head>
+
+  <section class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">
+      Mario Kart Champion
+    </p>
+    <p class="subtitle">
+      
+    </p>
+  </div>
+</section>
+<section class="section">
+  <h1 class="title"></h1>
+  {{ if not .currentMatch.Team1 }}
+    <p> Select players and click play </p>
+  {{ else }}
+    <form action="/postMatch" method="POST">
+
+    <nav class="level">
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">Team A</p>
+          {{ range .currentMatch.Team1 }}
+            <p class="title">{{.Name}}</p>
+          {{ end }}
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">Score</p>
+          <input class="input" type="number" id="scoreTeam1" name="scoreTeam1">
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="title">Vs.</p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">Score</p>
+          <input class="input" type="number" id="scoreTeam2" name="scoreTeam2">
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">Team B</p>
+          {{ range .currentMatch.Team2 }}
+            <p class="title">{{.Name}}</p>
+          {{ end }}
+        </div>
+      </div>
+      <input class="button" type="submit" value="Save">
+    </nav>
+    </form>
+  {{ end }}
+</section>
+  
+<section class="section">
+  <!--<h1 class="title">Players</h1>-->
+  <form action="/" method="POST">
+  <nav class="level">
+    <div class="level-item has-text-centered">
+      <div>
+        <table class="table">
+          <tr>
+            <th>User</th>
+            <th>Points</th>
+            <th>Active</th>
+          </tr>
+          {{ range .users }}
+          <tr>
+            <td>{{ .Name }}</td>
+            <td> {{ .Points }}</td>
+            <td> <input type="checkbox" name="users[]" value="{{ .Name }}" id="{{ .Name }}" {{ if .Active }}checked {{ end }}> <td>
+          </tr>
+          {{ end }}
+        </table>
+      </div>
+    </div>
+    <div class="level-item has-text-centered">
+      <div>
+        <input class="button" type="submit" value="Play!">
+      </div>
+    </div>
+        <div class="level-item has-text-centered">
+      <div>
+        <h2>Some charts?</h2>
+      </div>
+    </div>
+  </nav>
+  </form>
+</section>
+  
+
+  <footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>OneCloud CH Racer</strong></a>. The source code is licensed
+      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+    </p>
+  </div>
+</footer>
+</html>
