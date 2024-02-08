@@ -1,4 +1,4 @@
-module bgaechter.ch/go-playground
+module github.com/bgaechter/bracket
 
 go 1.21.6
 
