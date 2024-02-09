@@ -21,6 +21,11 @@ func (m *Match) createTeams(activePlayers []*User) {
 		} else {
 			m.Team2 = append(m.Team2, player)
 		}
+
+		// Limit team size to two
+		if len(m.Team2) == 2 && len(m.Team1) == 2 {
+			break
+		}
 	}
 }
 
