@@ -83,6 +83,10 @@ func main() {
 						Name:  pulumi.String("WEBSITES_ENABLE_APP_SERVICE_STORAGE"),
 						Value: pulumi.String("false"),
 					},
+					&web.NameValuePairArgs{
+						Name:  pulumi.String("WEBSITES_PORT"),
+						Value: pulumi.String("8080"),
+					},
 				},
 
 				// Map Azure Storage Account to /data
