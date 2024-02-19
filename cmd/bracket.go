@@ -36,7 +36,7 @@ func main() {
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", bracket.GetIndex)
 	router.GET("/unauthorized", func(c *gin.Context) {
-		c.JSON(401, gin.H{"status": "unauthorized"})
+		c.JSON(200, gin.H{"status": "unauthorized"})
 	})
 	router.POST("/", func(c *gin.Context) {
 		bracket.PostPlay(c)
