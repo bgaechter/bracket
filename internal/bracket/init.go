@@ -12,7 +12,7 @@ import (
 var Users = []*User{}
 
 func loadPlayers() {
-	readFile, err := os.Open("./data/players.txt")
+	readFile, err := os.Open("/data/players.txt")
 
 	if err != nil {
 		fmt.Println(err)
@@ -35,7 +35,7 @@ func loadPlayers() {
 }
 
 func loadMatches() {
-	readFile, err := os.Open("./data/matches.txt")
+	readFile, err := os.Open("/data/matches.txt")
 
 	if err != nil {
 		fmt.Println(err)

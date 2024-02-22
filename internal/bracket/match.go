@@ -31,7 +31,7 @@ func (m *Match) createTeams(activePlayers []*User) {
 
 func (m *Match) saveMatch() error {
 	// If the file doesn't exist, create it, or append to the file
-	f, err := os.OpenFile("./data/matches.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile("/data/matches.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}

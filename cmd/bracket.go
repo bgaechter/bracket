@@ -31,7 +31,7 @@ func main() {
 	router := gin.Default()
 	store := memstore.NewStore([]byte("ranker"))
 	router.Use(sessions.Sessions("session", store))
-	// router.Use(Auth())
+	router.Use(Auth())
 
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", bracket.GetIndex)
@@ -51,5 +51,5 @@ func main() {
 		router.HandleContext(c)
 	})
 
-	router.Run("localhost:8080")
+	router.Run("0.0.0.0:8080")
 }
