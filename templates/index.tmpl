@@ -30,6 +30,9 @@
           {{ range .currentMatch.Team1 }}
             <p class="title">{{.Name}}</p>
           {{ end }}
+          <span class="tag is-danger">{{ .winB }}</span>
+          <span class="tag is-light">{{ .draw }}</span>
+          <span class="tag is-success">{{ .winA }}</span>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -55,6 +58,9 @@
           {{ range .currentMatch.Team2 }}
             <p class="title">{{.Name}}</p>
           {{ end }}
+          <span class="tag is-danger">{{ .winA }}</span>
+          <span class="tag is-light">{{ .draw }}</span>
+          <span class="tag is-success">{{ .winB }}</span>
         </div>
       </div>
       <input class="button" type="submit" value="Save">
@@ -92,7 +98,23 @@
     </div>
         <div class="level-item has-text-centered">
       <div>
-        <h2></h2>
+      <h2>History</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Team A</th>
+            <th>Team B</th>
+            <th>Points Won</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>38</td>
+            <td>3</td>
+            <td>8</td>
+          </tr>
+        </tbody>
+      </table>
       </div>
     </div>
   </nav>

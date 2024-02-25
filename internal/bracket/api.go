@@ -27,10 +27,16 @@ func GetIndex(c *gin.Context) {
 	sort.Slice(Users, func(i, j int) bool {
 		return Users[i].Points > Users[j].Points
 	})
+
+	winA, draw, winB := m.eloChange()
+
 	c.HTML(http.StatusOK, "index.tmpl", gin.H{
 		"title":        "Main website",
 		"users":        Users,
 		"currentMatch": m,
+		"winA":         winA,
+		"draw":         draw,
+		"winB":         winB,
 	})
 }
 
@@ -88,6 +94,8 @@ func PostMatch(c *gin.Context) {
 		var diff1, diff2 int
 		if m.ScoreTeam1 > m.ScoreTeam2 {
 			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 1.0)
+		} else if m.ScoreTeam1 == m.ScoreTeam2 {
+			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 0.5)
 		} else {
 			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 0.0)
 		}

@@ -40,12 +40,8 @@ func (m *Match) pointsPerTeam() (int, int) {
 	return pointsTeamA, pointsTeamB
 }
 
-func (m *Match) eloChange() (winA int, draw int, winB int) {
-	pointsA, pointsB := m.pointsPerTeam()
-	winA, _ = CalculateNewElo(pointsA, pointsB, 1.0)
-	draw, _ = CalculateNewElo(pointsA, pointsB, 0.5)
-	_, winB = CalculateNewElo(pointsA, pointsB, 0.0)
-	return winA, draw, winB
+func (m *Match) eloChange() (winA int, draw int, loseA int) {
+	return winA, draw, loseA
 }
 
 func (m *Match) saveMatch() error {

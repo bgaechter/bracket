@@ -9,11 +9,12 @@ type User struct {
 }
 
 type Match struct {
-	DateTime   time.Time `json:"date_time"`
-	Team1      []*User   `json:"team1"`
-	Team2      []*User   `json:"team2"`
-	ScoreTeam1 int       `json:"score_team_1"`
-	ScoreTeam2 int       `json:"score_team_2"`
+	DateTime     time.Time `json:"date_time"`
+	Team1        []*User   `json:"team1"`
+	Team2        []*User   `json:"team2"`
+	ScoreTeam1   int       `json:"score_team_1"`
+	ScoreTeam2   int       `json:"score_team_2"`
+	PointsChange int       `json:"points_change,omitempty"`
 }
 
 type PlayForm struct {
