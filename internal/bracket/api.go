@@ -32,10 +32,13 @@ func GetIndex(c *gin.Context) {
 	winA, draw, winB := m.eloChange()
 
 	// only Display 20 last matches
-	historyLength := len(Matches) - 20
-	if historyLength < 0 {
-		historyLength = 0
+	index := len(Matches)
+	if index > 20 {
+		index = 20
 	}
+	sort.Slice(Matches, func(i, j int) bool {
+		return Matches[i].DateTime.Unix() > Matches[j].DateTime.Unix()
+	})
 
 	c.HTML(http.StatusOK, "index.tmpl", gin.H{
 		"users":        Users,
@@ -43,7 +46,7 @@ func GetIndex(c *gin.Context) {
 		"winA":         winA,
 		"draw":         draw,
 		"winB":         winB,
-		"matches":      Matches[historyLength:],
+		"matches":      Matches[:index],
 	})
 }
 
