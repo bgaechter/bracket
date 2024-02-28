@@ -17,7 +17,6 @@ FROM gcr.io/distroless/base-debian12 AS build-release-stage
 WORKDIR /
 
 COPY --from=build-stage /app/bracket /bracket
-COPY ./data /data
 COPY ./templates /templates
 
 EXPOSE 8080

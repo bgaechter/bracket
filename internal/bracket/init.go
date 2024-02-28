@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -64,6 +65,7 @@ func loadMatches() {
 		var diff1, diff2 int
 		if m.ScoreTeam1 > m.ScoreTeam2 {
 			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 1.0)
+
 		} else if m.ScoreTeam1 == m.ScoreTeam2 {
 			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 0.5)
 		} else {
@@ -84,6 +86,7 @@ func loadMatches() {
 				}
 			}
 		}
+		m.PointsChange = int(math.Abs(float64(diff1)))
 		Matches = append(Matches, &m)
 
 	}

@@ -3,6 +3,7 @@ package bracket
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"net/http"
 	"sort"
 	"time"
@@ -30,13 +31,19 @@ func GetIndex(c *gin.Context) {
 
 	winA, draw, winB := m.eloChange()
 
+	// only Display 20 last matches
+	historyLength := len(Matches) - 20
+	if historyLength < 0 {
+		historyLength = 0
+	}
+
 	c.HTML(http.StatusOK, "index.tmpl", gin.H{
-		"title":        "Main website",
 		"users":        Users,
 		"currentMatch": m,
 		"winA":         winA,
 		"draw":         draw,
 		"winB":         winB,
+		"matches":      Matches[historyLength:],
 	})
 }
 
@@ -99,7 +106,6 @@ func PostMatch(c *gin.Context) {
 		} else {
 			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 0.0)
 		}
-
 		for _, u := range m.Team1 {
 			for _, user := range Users {
 				if u.Name == user.Name {
@@ -114,6 +120,7 @@ func PostMatch(c *gin.Context) {
 				}
 			}
 		}
+		m.PointsChange = int(math.Abs(float64(diff1)))
 		session.Set("currentMatch", nil)
 		m.saveMatch()
 	}

@@ -24,15 +24,17 @@
     <form action="/postMatch" method="POST">
 
     <nav class="level">
+          <div class="level-item has-text-centered">
+        <div>
+          <span class="tag is-success">{{ .winA }}</span>
+        </div>
+      </div>
       <div class="level-item has-text-centered">
         <div>
           <p class="heading">Team A</p>
           {{ range .currentMatch.Team1 }}
             <p class="title">{{.Name}}</p>
           {{ end }}
-          <span class="tag is-danger">{{ .winB }}</span>
-          <span class="tag is-light">{{ .draw }}</span>
-          <span class="tag is-success">{{ .winA }}</span>
         </div>
       </div>
       <div class="level-item has-text-centered">
@@ -58,12 +60,18 @@
           {{ range .currentMatch.Team2 }}
             <p class="title">{{.Name}}</p>
           {{ end }}
-          <span class="tag is-danger">{{ .winA }}</span>
-          <span class="tag is-light">{{ .draw }}</span>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
           <span class="tag is-success">{{ .winB }}</span>
         </div>
       </div>
-      <input class="button" type="submit" value="Save">
+      <div class="level-item has-text-centered">
+        <div>
+          <input class="button" type="submit" value="Save">
+        </div>
+      </div>
     </nav>
     </form>
   {{ end }}
@@ -108,11 +116,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>38</td>
-            <td>3</td>
-            <td>8</td>
-          </tr>
+          {{ range $y, $x := .matches }}
+            <tr>
+              <td {{ if gt $x.ScoreTeam1 $x.ScoreTeam2 }}class="has-background-success" {{ end }} > 
+                {{ range $x.Team1 }}
+                  {{.Name}}
+                {{ end }}
+                </td>
+              <td {{ if gt $x.ScoreTeam2 $x.ScoreTeam1 }}class="has-background-success" {{ end }}>
+                {{ range $x.Team2 }}
+                  {{.Name}}
+                {{ end }}
+              </td>
+              <td>{{ $x.PointsChange }}</td>
+            </tr>
+          {{ end }}
         </tbody>
       </table>
       </div>
