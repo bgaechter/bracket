@@ -3,6 +3,7 @@ package bracket
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"net/http"
 	"sort"
 	"time"
@@ -27,10 +28,25 @@ func GetIndex(c *gin.Context) {
 	sort.Slice(Users, func(i, j int) bool {
 		return Users[i].Points > Users[j].Points
 	})
+
+	winA, draw, winB := m.eloChange()
+
+	// only Display 20 last matches
+	index := len(Matches)
+	if index > 20 {
+		index = 20
+	}
+	sort.Slice(Matches, func(i, j int) bool {
+		return Matches[i].DateTime.Unix() > Matches[j].DateTime.Unix()
+	})
+
 	c.HTML(http.StatusOK, "index.tmpl", gin.H{
-		"title":        "Main website",
 		"users":        Users,
 		"currentMatch": m,
+		"winA":         winA,
+		"draw":         draw,
+		"winB":         winB,
+		"matches":      Matches[:index],
 	})
 }
 
@@ -88,10 +104,11 @@ func PostMatch(c *gin.Context) {
 		var diff1, diff2 int
 		if m.ScoreTeam1 > m.ScoreTeam2 {
 			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 1.0)
+		} else if m.ScoreTeam1 == m.ScoreTeam2 {
+			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 0.5)
 		} else {
 			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 0.0)
 		}
-
 		for _, u := range m.Team1 {
 			for _, user := range Users {
 				if u.Name == user.Name {
@@ -106,6 +123,7 @@ func PostMatch(c *gin.Context) {
 				}
 			}
 		}
+		m.PointsChange = int(math.Abs(float64(diff1)))
 		session.Set("currentMatch", nil)
 		m.saveMatch()
 	}

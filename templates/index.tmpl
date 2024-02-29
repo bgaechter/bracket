@@ -32,6 +32,11 @@
     <form action="/postMatch" method="POST">
 
     <nav class="level">
+          <div class="level-item has-text-centered">
+        <div>
+          <span class="tag is-success">{{ .winA }}</span>
+        </div>
+      </div>
       <div class="level-item has-text-centered">
         <div>
           <p class="heading">Team A</p>
@@ -65,7 +70,16 @@
           {{ end }}
         </div>
       </div>
-      <input class="button" type="submit" value="Save">
+      <div class="level-item has-text-centered">
+        <div>
+          <span class="tag is-success">{{ .winB }}</span>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <input class="button" type="submit" value="Save">
+        </div>
+      </div>
     </nav>
     </form>
   {{ end }}
@@ -100,7 +114,33 @@
     </div>
         <div class="level-item has-text-centered">
       <div>
-        <h2></h2>
+      <h2>History</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Team A</th>
+            <th>Team B</th>
+            <th>Points Won</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ range $y, $x := .matches }}
+            <tr>
+              <td {{ if gt $x.ScoreTeam1 $x.ScoreTeam2 }}class="has-background-success" {{ end }} > 
+                {{ range $x.Team1 }}
+                  {{.Name}}
+                {{ end }}
+                </td>
+              <td {{ if gt $x.ScoreTeam2 $x.ScoreTeam1 }}class="has-background-success" {{ end }}>
+                {{ range $x.Team2 }}
+                  {{.Name}}
+                {{ end }}
+              </td>
+              <td>{{ $x.PointsChange }}</td>
+            </tr>
+          {{ end }}
+        </tbody>
+      </table>
       </div>
     </div>
   </nav>

@@ -4,16 +4,20 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
 )
 
-var Users = []*User{}
+// TODO create proper application State
+var (
+	Users   = []*User{}
+	Matches = []*Match{}
+)
 
 func loadPlayers() {
 	readFile, err := os.Open("/data/players.txt")
-
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -36,7 +40,6 @@ func loadPlayers() {
 
 func loadMatches() {
 	readFile, err := os.Open("/data/matches.txt")
-
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -62,6 +65,9 @@ func loadMatches() {
 		var diff1, diff2 int
 		if m.ScoreTeam1 > m.ScoreTeam2 {
 			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 1.0)
+
+		} else if m.ScoreTeam1 == m.ScoreTeam2 {
+			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 0.5)
 		} else {
 			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 0.0)
 		}
@@ -80,6 +86,8 @@ func loadMatches() {
 				}
 			}
 		}
+		m.PointsChange = int(math.Abs(float64(diff1)))
+		Matches = append(Matches, &m)
 
 	}
 	readFile.Close()

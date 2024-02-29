@@ -29,6 +29,25 @@ func (m *Match) createTeams(activePlayers []*User) {
 	}
 }
 
+func (m *Match) pointsPerTeam() (int, int) {
+	var pointsTeamA, pointsTeamB int
+	for _, p := range m.Team1 {
+		pointsTeamA += p.Points
+	}
+	for _, p := range m.Team2 {
+		pointsTeamB += p.Points
+	}
+	return pointsTeamA, pointsTeamB
+}
+
+func (m *Match) eloChange() (winA int, draw int, winB int) {
+	pointsA, pointsB := m.pointsPerTeam()
+	winA, _ = CalculateNewElo(pointsA, pointsB, 1.0)
+	draw, _ = CalculateNewElo(pointsA, pointsB, 0.5)
+	_, winB = CalculateNewElo(pointsA, pointsB, 0.0)
+	return winA, draw, winB
+}
+
 func (m *Match) saveMatch() error {
 	// If the file doesn't exist, create it, or append to the file
 	f, err := os.OpenFile("/data/matches.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
