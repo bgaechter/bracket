@@ -124,6 +124,7 @@ func PostMatch(c *gin.Context) {
 			}
 		}
 		m.PointsChange = int(math.Abs(float64(diff1)))
+		Matches = append(Matches, &m)
 		session.Set("currentMatch", nil)
 		m.saveMatch()
 	}
