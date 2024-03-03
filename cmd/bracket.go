@@ -8,10 +8,10 @@ import (
 )
 
 func main() {
-
 	router := gin.Default()
 	store := memstore.NewStore([]byte("ranker"))
 	router.Use(sessions.Sessions("session", store))
+	router.Use(bracket.AzureAuthorizer())
 
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", bracket.GetIndex)
