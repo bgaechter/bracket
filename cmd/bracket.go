@@ -30,6 +30,12 @@ func main() {
 		c.Request.Method = "GET"
 		router.HandleContext(c)
 	})
+	router.POST("/postNewPlayer", func(c *gin.Context) {
+		bracket.PostNewPlayer(c)
+		c.Request.URL.Path = "/"
+		c.Request.Method = "GET"
+		router.HandleContext(c)
+	})
 
 	router.Run("0.0.0.0:8080")
 }

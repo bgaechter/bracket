@@ -25,3 +25,7 @@ type SaveMatchForm struct {
 	ScoreTeam1 int `form:"scoreTeam1"`
 	ScoreTeam2 int `form:"scoreTeam2"`
 }
+
+type NewPlayerForm struct {
+	Name string `form:"name"`
+}

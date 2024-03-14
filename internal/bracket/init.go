@@ -15,9 +15,10 @@ var (
 	Users   = []*User{}
 	Matches = []*Match{}
 )
+var Config BracketConfig
 
 func loadPlayers() {
-	readFile, err := os.Open("/data/players.txt")
+	readFile, err := os.Open(Config.DataDir + "/players.txt")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -27,6 +28,10 @@ func loadPlayers() {
 
 	for fileScanner.Scan() {
 		line := fileScanner.Text()
+		if line == "" {
+			// skip empty lines
+			continue
+		}
 		player := strings.Split(line, " ")
 		fmt.Println(line)
 		points, err := strconv.Atoi(player[1])
@@ -39,7 +44,7 @@ func loadPlayers() {
 }
 
 func loadMatches() {
-	readFile, err := os.Open("/data/matches.txt")
+	readFile, err := os.Open(Config.DataDir + "/matches.txt")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -65,7 +70,6 @@ func loadMatches() {
 		var diff1, diff2 int
 		if m.ScoreTeam1 > m.ScoreTeam2 {
 			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 1.0)
-
 		} else if m.ScoreTeam1 == m.ScoreTeam2 {
 			diff1, diff2 = CalculateNewElo(team1Points, team2Points, 0.5)
 		} else {
@@ -94,6 +98,7 @@ func loadMatches() {
 }
 
 func init() {
+	Config = newConfig()
 	loadPlayers()
 	loadMatches()
 }

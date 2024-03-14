@@ -87,7 +87,8 @@
   
 <section class="section">
   <!--<h1 class="title">Players</h1>-->
-  <form action="/" method="POST">
+  <form id="play-form" action="/" method="POST"></form>
+  <form id="new-player-form" action="/postNewPlayer" method="POST"></form>
   <nav class="level">
     <div class="level-item has-text-centered">
       <div>
@@ -101,15 +102,20 @@
           <tr>
             <td>{{ .Name }}</td>
             <td> {{ .Points }}</td>
-            <td> <input type="checkbox" name="users[]" value="{{ .Name }}" id="{{ .Name }}" {{ if .Active }}checked {{ end }}> <td>
+            <td> <input type="checkbox" name="users[]" value="{{ .Name }}" id="{{ .Name }}" {{ if .Active }}checked {{ end }} form="play-form"> <td>
           </tr>
           {{ end }}
+          <tr>
+            <td> <input type="text" name="name" id="name" form="new-player-form"> </td>
+            <td> </td>
+            <td> <input class="button" type="submit" value="save" form="new-player-form"> <td>
+          </tr>
         </table>
       </div>
     </div>
     <div class="level-item has-text-centered">
       <div>
-        <input class="button" type="submit" value="Play!">
+        <input class="button" type="submit" value="Play!" form="play-form">
       </div>
     </div>
         <div class="level-item has-text-centered">
@@ -144,7 +150,6 @@
       </div>
     </div>
   </nav>
-  </form>
 </section>
   
 

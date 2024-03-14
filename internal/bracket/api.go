@@ -3,8 +3,10 @@ package bracket
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math"
 	"net/http"
+	"os"
 	"sort"
 	"time"
 
@@ -48,6 +50,23 @@ func GetIndex(c *gin.Context) {
 		"winB":         winB,
 		"matches":      Matches[:index],
 	})
+}
+
+func PostNewPlayer(c *gin.Context) {
+	var newPlayerForm NewPlayerForm
+	c.Bind(&newPlayerForm)
+	u := &User{newPlayerForm.Name, 800, false}
+	Users = append(Users, u)
+	f, err := os.OpenFile(Config.DataDir+"/players.txt", os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if _, err = f.Write([]byte(u.Name + " 800\n")); err != nil {
+		log.Fatal(err)
+	}
+	if err := f.Close(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func PostPlay(c *gin.Context) {
