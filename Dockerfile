@@ -3,16 +3,15 @@ FROM golang:1.22 AS build-stage
 WORKDIR /app
 
 COPY . . 
-RUN go mod tidy
-
-RUN CGO_ENABLED=0 GOOS=linux go build ./cmd/bracket.go
+RUN go mod tidy && \
+  CGO_ENABLED=0 GOOS=linux go build ./cmd/bracket.go
 
 # Run the tests in the container
 FROM build-stage AS run-test-stage
 RUN go test -v ./...
 
 # Deploy the application binary into a lean image
-FROM gcr.io/distroless/base-debian12 AS build-release-stage
+FROM gcr.io/distroless/static-debian12 AS build-release-stage
 
 WORKDIR /
 
